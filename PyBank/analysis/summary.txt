@@ -1,0 +1,6 @@
+Financial Analysis
+----------------------------
+Months: 86
+Total: 38382578.0
+Greatest Decrease: {'Sep-2013': -1196225}
+Greatest Increase: {'Feb-2012': 1170593}
