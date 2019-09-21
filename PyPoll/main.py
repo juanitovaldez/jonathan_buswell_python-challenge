@@ -18,30 +18,43 @@ def get_key(dictionary, value):
     target_key = str([key for key, target_value in dictionary.items() if target_value == value][0])
     return target_key
 
-#Counters are special dictionary objects that have methods for quick
-#tallies
-#Testing and Executionqq
+def summary_to_file(summary,file_output):
+    with open(file_output, "w", newline="") as data_file:
+        data_file.write(summary)
 
+#nasty catchall for previously prototyped code
+def tabulate(dictionary):
+    tally = Counter()
+    vote_percentage = []
+    for candidate in election_tally[1:]:
+        tally[candidate] += 1
+    vote_total = sum(tally.values())
+    winner = get_key(tally, max(tally.values()))
+    for vote_count in tally.values():
+        vote_percentage.append(round(vote_count/vote_total, 4))
+    candidates = dict(tally)
+    text_candi = str()
+    i = 0
+    for entry in candidates:
+        text_candi += f'{entry}:    ({vote_percentage[i]}) {candidates[entry]}   \n'
+        i += 1
+    tab_summary = {"Total Votes": int(vote_total),
+                   "Candidates": text_candi,
+                   "Winner": str(winner)}
+    return tab_summary
+def print_summary(dictionary):
+    summary = tabulate(dictionary)
+    summary_text = f'Election Results\n----------------------------\nTotal Votes: {summary["Total Votes"]}\n----------------------------\n{summary["Candidates"]}\nWinner: {summary["Winner"]}\n'
+    print(summary_text)
+    return summary_text
 
+def summary_to_file(summary,file_output):
+    with open(file_output, "w", newline="") as data_file:
+        data_file.write(summary)
+
+#Runs the our functions
 election_csv, results_out_txt = create_election_io("election_data.csv", "Resources", "election_results.txt", "analysis")
 election_tally = csv_to_list(election_csv)
-tally = Counter()
-vote_percentage = []
-for candidate in election_tally[1:]:
-    tally[candidate] += 1
-vote_total = sum(tally.values())
-winner = get_key(tally, max(tally.values()))
-for vote_count in tally.values():
-    vote_percentage.append((vote_count/vote_total, vote_count))
+summary = print_summary(election_tally)
+summary_to_file(summary, results_out_txt)
 
-
-
-
-# election_set = set(election_tally[1:])
-print(election_tally[1:10])
-# print(election_set)
-print(tally)
-print(sum(tally.values()))
-print(vote_percentage)
-
-print (winner)
