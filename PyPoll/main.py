@@ -18,10 +18,6 @@ def get_key(dictionary, value):
     target_key = str([key for key, target_value in dictionary.items() if target_value == value][0])
     return target_key
 
-def summary_to_file(summary,file_output):
-    with open(file_output, "w", newline="") as data_file:
-        data_file.write(summary)
-
 #nasty catchall for previously prototyped code
 def tabulate(dictionary):
     tally = Counter()
